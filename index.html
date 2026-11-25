@@ -20,14 +20,43 @@ li.s{display:flex;align-items:center;gap:14px;background:var(--card);border:1px 
 .btn{flex:none;display:inline-block;background:var(--ink);color:var(--cream);text-decoration:none;font-weight:600;font-size:15px;padding:10px 16px;border-radius:999px}
 .btn.off{background:var(--line);color:var(--muted)}
 .note{margin-top:28px;padding:16px;border-top:1px solid var(--line);color:var(--muted);font-size:14px}
-.note a{color:var(--ink)}.empty{color:var(--muted)}footer{margin-top:24px;color:var(--muted);font-size:12px}
+.ah{position:relative;margin:22px 0 4px;padding:14px 40px 14px 16px;background:var(--card);border:1px solid var(--gold);border-radius:14px}.ah-t{font-weight:600;font-size:15px}.ah-s{color:var(--muted);font-size:14px;margin-top:4px}.ah-b{margin-top:10px;background:var(--ink);color:var(--cream);border:0;border-radius:999px;padding:9px 16px;font-weight:600;font-size:14px}.ah-x{position:absolute;top:8px;right:10px;background:none;border:0;font-size:22px;color:var(--muted);line-height:1}.note a{color:var(--ink)}.empty{color:var(--muted)}footer{margin-top:24px;color:var(--muted);font-size:12px}
 </style></head>
 <body><div class="wrap">
 <header><h1>ATMOS</h1><p>California · Steam schedule</p></header>
+<div id="ah" class="ah" hidden>
+<div class="ah-t">Keep ATMOS on your phone</div>
+<div class="ah-s" id="ah-s"></div>
+<button class="ah-b" id="ah-b" hidden>Add to Home Screen</button>
+<button class="ah-x" id="ah-x" aria-label="Close">×</button>
+</div>
+<script>
+(function(){
+  var standalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
+  var closed = false; try { closed = localStorage.getItem('ah-closed') === '1'; } catch(e) {}
+  if (standalone || closed) return;
+  var ua = navigator.userAgent, box = document.getElementById('ah'), s = document.getElementById('ah-s'), b = document.getElementById('ah-b');
+  var ios = /iPhone|iPad|iPod/.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+  var android = /Android/.test(ua);
+  if (ios) {
+    if (/CriOS/.test(ua)) s.innerHTML = 'Tap <b>Share</b> (square with an arrow) in the address bar, then <b>Add to Home Screen</b>.';
+    else if (/FxiOS|EdgiOS/.test(ua)) s.innerHTML = 'Tap the menu, then <b>Share</b> &rarr; <b>Add to Home Screen</b>.';
+    else s.innerHTML = 'Tap <b>Share</b> (square with an arrow) at the bottom, then <b>Add to Home Screen</b>.';
+    box.hidden = false;
+  } else if (android) {
+    s.innerHTML = 'Open the browser menu <b>&#8942;</b>, then <b>Add to Home screen</b>.';
+    box.hidden = false;
+    var ev = null;
+    window.addEventListener('beforeinstallprompt', function(e){ e.preventDefault(); ev = e; s.innerHTML = 'One tap and it opens like an app.'; b.hidden = false; });
+    b.onclick = function(){ if (ev) { ev.prompt(); ev = null; b.hidden = true; } };
+  }
+  document.getElementById('ah-x').onclick = function(){ box.hidden = true; try { localStorage.setItem('ah-closed','1'); } catch(e) {} };
+})();
+</script>
 <h2>Week of November 23</h2><ul><li class="s"><div class="when"><div class="day">Sun</div><div class="date">Nov 29</div></div><div class="what"><div class="name">Communal Steam</div><div class="meta">4 PM · Women & men · <span class="seats">9 seats left</span></div><div class="guide">with Sam &amp; Oleksandr</div></div><a class="btn" href="https://atmossteam.simplybook.me/v2/#book/service/4/count/1/provider/7/date/2026-11-29/time/16:00:00/">Book</a></li><li class="s"><div class="when"><div class="day">Sun</div><div class="date">Nov 29</div></div><div class="what"><div class="name">Communal Steam</div><div class="meta">7 PM · Women & men · <span class="seats">5 seats left</span></div><div class="guide">with Sam &amp; Oleksandr</div></div><a class="btn" href="https://atmossteam.simplybook.me/v2/#book/service/4/count/1/provider/7/date/2026-11-29/time/19:00:00/">Book</a></li></ul><h2>Week of November 30</h2><ul><li class="s women"><div class="when"><div class="day">Wed</div><div class="date">Dec 2</div></div><div class="what"><div class="name">Women's Steam</div><div class="meta">7 PM · Women only · <span class="seats">7 seats left</span></div><div class="guide">with Zoia</div></div><a class="btn" href="https://atmossteam.simplybook.me/v2/#book/service/7/count/1/provider/10/date/2026-12-02/time/19:00:00/">Book</a></li><li class="s"><div class="when"><div class="day">Sun</div><div class="date">Dec 6</div></div><div class="what"><div class="name">Communal Steam</div><div class="meta">4 PM · Women & men · <span class="seats">11 seats left</span></div><div class="guide">with Sam &amp; Oleksandr</div></div><a class="btn" href="https://atmossteam.simplybook.me/v2/#book/service/4/count/1/provider/7/date/2026-12-06/time/16:00:00/">Book</a></li></ul><h2>Week of December 7</h2><ul><li class="s women"><div class="when"><div class="day">Wed</div><div class="date">Dec 9</div></div><div class="what"><div class="name">Women's Steam</div><div class="meta">7 PM · Women only · <span class="seats">10 seats left</span></div><div class="guide">with Zoia</div></div><a class="btn" href="https://atmossteam.simplybook.me/v2/#book/service/7/count/1/provider/10/date/2026-12-09/time/19:00:00/">Book</a></li><li class="s"><div class="when"><div class="day">Sun</div><div class="date">Dec 13</div></div><div class="what"><div class="name">Communal Steam</div><div class="meta">7 PM · Women & men · <span class="seats">11 seats left</span></div><div class="guide">with Sam &amp; Oleksandr</div></div><a class="btn" href="https://atmossteam.simplybook.me/v2/#book/service/4/count/1/provider/7/date/2026-12-13/time/19:00:00/">Book</a></li></ul><h2>Week of December 14</h2><ul><li class="s women"><div class="when"><div class="day">Wed</div><div class="date">Dec 16</div></div><div class="what"><div class="name">Women's Steam</div><div class="meta">7 PM · Women only · <span class="seats">11 seats left</span></div><div class="guide">with Zoia</div></div><a class="btn" href="https://atmossteam.simplybook.me/v2/#book/service/7/count/1/provider/10/date/2026-12-16/time/19:00:00/">Book</a></li><li class="s"><div class="when"><div class="day">Sun</div><div class="date">Dec 20</div></div><div class="what"><div class="name">Communal Steam</div><div class="meta">7 PM · Women & men · <span class="seats">11 seats left</span></div><div class="guide">with Sam &amp; Oleksandr</div></div><a class="btn" href="https://atmossteam.simplybook.me/v2/#book/service/4/count/1/provider/7/date/2026-12-20/time/19:00:00/">Book</a></li></ul>
 <div class="note">
 <p><b>$111 per person.</b> Topanga, at Elsewhere. Booking takes a minute: log in with the email you joined with.</p><p>Forgot your login, or want a private session? <a href="https://wa.me/13105261164">Text us on WhatsApp</a>.</p><p>Not a member yet? <a href="https://go.atmos-steam.com/join">Join ATMOS</a>.</p>
 <p>Tip: on your phone tap Share → <b>Add to Home Screen</b> — it stays there like an app.</p>
 </div>
-<footer>Updated Nov 24, 11:27 PM (Pacific time).</footer>
+<footer>Updated Nov 25, 2:29 AM (Pacific time).</footer>
 </div></body></html>
